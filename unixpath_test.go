@@ -208,6 +208,16 @@ func TestUnixPathJoin(t *testing.T) {
 	assert.Equal(t, "/var/data/../hello", res.String())
 }
 
+func TestUnixPathJoinHomeRooted(t *testing.T) {
+	path1 := "/home/user"
+	path2 := "~/data"
+	p1, _ := NewUnixPath(path1)
+	p2, _ := NewUnixPath(path2)
+	res, err := p1.Join(p2)
+	assert.NilError(t, err)
+	assert.Equal(t, "/home/user/data", res.String())
+}
+
 func TestUnixPathConvert(t *testing.T) {
 	cases := []struct {
 		source        string

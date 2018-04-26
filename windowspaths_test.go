@@ -169,6 +169,16 @@ func TestWindowsPathJoin(t *testing.T) {
 	assert.Equal(t, `c:\var\data\..\hello`, res.String())
 }
 
+func TestWindowsPathJoinHomeRooted(t *testing.T) {
+	path1 := `c:\users\user`
+	path2 := `~\data`
+	p1, _ := NewWindowsPath(path1, false)
+	p2, _ := NewWindowsPath(path2, false)
+	res, err := p1.Join(p2)
+	assert.NilError(t, err)
+	assert.Equal(t, `c:\users\user\data`, res.String())
+}
+
 func TestWindowsPathConvert(t *testing.T) {
 	cases := []struct {
 		source        string

@@ -193,13 +193,18 @@ func (p *windowsPath) Join(paths ...Path) (Path, error) {
 	}
 	head := paths[0]
 	tail := paths[1:]
-	if head.Kind() != Relative {
+	if head.Kind() != Relative && head.Kind() != HomeRooted {
 		return nil, errors.New("can only join relative paths")
 	}
-	if head.TargetOS() != Windows {
-		return nil, errors.New("can only join Windows paths")
+	var err error
+	if head, err = head.Convert(Unix); err != nil {
+		return nil, err
 	}
-	current := &windowsPath{tokens: append(p.tokens, head.segments()...), namespacePrefix: p.namespacePrefix, prefix: p.prefix, unc: p.unc}
+	segs := head.segments()
+	if head.Kind() == HomeRooted {
+		segs = segs[1:]
+	}
+	current := &windowsPath{tokens: append(p.tokens, segs...), namespacePrefix: p.namespacePrefix, prefix: p.prefix, unc: p.unc}
 	return current.Join(tail...)
 }
 

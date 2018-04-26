@@ -87,13 +87,19 @@ func (p *unixPath) Join(paths ...Path) (Path, error) {
 	}
 	head := paths[0]
 	tail := paths[1:]
-	if head.Kind() != Relative {
-		return nil, errors.New("can only join relative paths")
+	if head.Kind() != Relative && head.Kind() != HomeRooted {
+		return nil, errors.New("can only join relative or home rooted paths")
 	}
-	if head.TargetOS() != Unix {
-		return nil, errors.New("can only join Unix paths")
+	var err error
+	if head, err = head.Convert(Unix); err != nil {
+		return nil, err
 	}
-	current := &unixPath{tokens: append(p.tokens, head.segments()...)}
+
+	segs := head.segments()
+	if head.Kind() == HomeRooted {
+		segs = segs[1:]
+	}
+	current := &unixPath{tokens: append(p.tokens, segs...)}
 	return current.Join(tail...)
 }
 
