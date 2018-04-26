@@ -214,3 +214,7 @@ func (p *windowsPath) Convert(os TargetOS) (Path, error) {
 		return nil, errors.New("only relative and home rooted paths can be converted")
 	}
 }
+
+func (p *windowsPath) hasWindowsSpecificNamespacePrefix() bool {
+	return p.namespacePrefix != ""
+}

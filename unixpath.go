@@ -108,3 +108,7 @@ func (p *unixPath) Convert(os TargetOS) (Path, error) {
 		return nil, errors.New("only relative and home rooted paths can be converted")
 	}
 }
+
+func (p *unixPath) hasWindowsSpecificNamespacePrefix() bool {
+	return false
+}

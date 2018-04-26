@@ -42,4 +42,5 @@ type Path interface {
 	Convert(os TargetOS) (Path, error)
 	Normalize() Path
 	Join(paths ...Path) (Path, error)
+	hasWindowsSpecificNamespacePrefix() bool
 }
