@@ -1,6 +1,9 @@
 package crosspath
 
-import "fmt"
+import (
+	"fmt"
+	"runtime"
+)
 
 // TargetOS qualifies a path with a target OS
 type TargetOS string
@@ -43,4 +46,12 @@ type Path interface {
 	Normalize() Path
 	Join(paths ...Path) (Path, error)
 	hasWindowsSpecificNamespacePrefix() bool
+}
+
+// RuntimeOS returns information about the running OS (in term of file paths semantic)
+func RuntimeOS() TargetOS {
+	if runtime.GOOS == "windows" {
+		return Windows
+	}
+	return Unix
 }
