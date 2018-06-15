@@ -19,8 +19,12 @@ type unixPath struct {
 	tokens []string
 }
 
-func (p *unixPath) String() string {
+func (p *unixPath) Raw() string {
 	return strings.Join(p.tokens, "/")
+}
+
+func (p *unixPath) String() string {
+	return p.Normalize().Raw()
 }
 
 func (p *unixPath) TargetOS() TargetOS {
