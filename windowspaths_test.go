@@ -154,7 +154,6 @@ func TestWindowsPathNormalize(t *testing.T) {
 	for _, c := range cases {
 		p, err := NewWindowsPath(c.source, false)
 		assert.NilError(t, err)
-		p = p.Normalize()
 		assert.Equal(t, c.expected, p.String())
 	}
 }
@@ -166,7 +165,7 @@ func TestWindowsPathJoin(t *testing.T) {
 	p2, _ := NewWindowsPath(path2, false)
 	res, err := p1.Join(p2)
 	assert.NilError(t, err)
-	assert.Equal(t, `c:\var\data\..\hello`, res.String())
+	assert.Equal(t, `c:\var\data\..\hello`, res.Raw())
 }
 
 func TestWindowsPathJoinHomeRooted(t *testing.T) {

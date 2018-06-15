@@ -46,6 +46,7 @@ type Path interface {
 	Normalize() Path
 	Join(paths ...Path) (Path, error)
 	hasWindowsSpecificNamespacePrefix() bool
+	Raw() string
 }
 
 // RuntimeOS returns information about the running OS (in term of file paths semantic)

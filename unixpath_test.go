@@ -49,7 +49,7 @@ func TestUnixPathStringer(t *testing.T) {
 		t.Run(c.name, func(t *testing.T) {
 			p, err := NewUnixPath(c.path)
 			assert.NilError(t, err)
-			assert.Equal(t, c.path, p.String())
+			assert.Equal(t, c.path, p.Raw())
 		})
 	}
 }
@@ -192,7 +192,6 @@ func TestUnixNormalize(t *testing.T) {
 		t.Run(c.name, func(t *testing.T) {
 			p, err := NewUnixPath(c.original)
 			assert.NilError(t, err)
-			p = p.Normalize()
 			assert.Equal(t, c.normalized, p.String())
 		})
 	}
@@ -205,7 +204,7 @@ func TestUnixPathJoin(t *testing.T) {
 	p2, _ := NewUnixPath(path2)
 	res, err := p1.Join(p2)
 	assert.NilError(t, err)
-	assert.Equal(t, "/var/data/../hello", res.String())
+	assert.Equal(t, "/var/data/../hello", res.Raw())
 }
 
 func TestUnixPathJoinHomeRooted(t *testing.T) {

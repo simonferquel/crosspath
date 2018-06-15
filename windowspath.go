@@ -100,8 +100,12 @@ type windowsPath struct {
 	tokens          []string
 }
 
-func (p *windowsPath) String() string {
+func (p *windowsPath) Raw() string {
 	return p.namespacePrefix + p.prefix + strings.Join(p.tokens, `\`)
+}
+
+func (p *windowsPath) String() string {
+	return p.Normalize().Raw()
 }
 
 func (p *windowsPath) TargetOS() TargetOS {
